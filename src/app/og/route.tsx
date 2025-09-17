@@ -13,7 +13,7 @@ export async function GET(req: Request) {
   const title = (url.searchParams.get("t") ?? "Brand Shop").slice(0, 80);
   const s1 = url.searchParams.get("s1") ?? ">1000 довольных покупателей уже убедились - с нами экономить легко";
   const s2 = url.searchParams.get("s2") ?? "Низкие цены на твои любимые оригиналы";
-  const s3 = url.searchParams.get("s3") ?? "Доставка по РФ и странам СНГ";
+  const s3 = url.searchParams.get("s3") ?? "Доставка по РФ и странам";
 
   // Картинка справа (абсолютный URL обязателен)
   const rawImg = url.searchParams.get("img") ?? "/og/sneaker.png";
