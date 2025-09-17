@@ -3,8 +3,8 @@ import "./globals.css";
 
 
 const SITE_NAME = "Brand Shop"; // поменяй
-const SITE_URL = "https://valenti.shop"; // поменяй на свой домен
-const TG_USERNAME = "valenti_shop"; // t.me/<имя>
+const SITE_URL = "https://brandshopvs.online"; // поменяй на свой домен
+const TG_USERNAME = "brendshopVS"; // t.me/<имя>
 
 
 export const metadata: Metadata = {
@@ -42,12 +42,12 @@ const jsonLd = {
 name: SITE_NAME,
 url: SITE_URL,
 sameAs: [`https://t.me/${TG_USERNAME}`],
-image: `${SITE_URL}/og-cover.jpg`,
+image: `${SITE_URL}/og`,
 address: {
 "@type": "PostalAddress",
 addressCountry: "RU",
 },
-openingHours: "Mo-Su 10:00-22:00",
+openingHours: "24/7",
 };
 
 
