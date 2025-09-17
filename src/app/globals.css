@@ -1,26 +1,65 @@
-@import "tailwindcss";
+@import "tailwindcss"; /* Tailwind v4 стиль */
+@reference "tailwindcss"; /* чтобы @apply работал в любых CSS */
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+
+/* Дизайн‑токены (цвета и т.п.) */
+@theme {
+--color-brand-50: #990e9e;
+--color-brand-100: #640c4e;
+--color-brand-200: #d5dbfd;
+--color-brand-300: #b3bdfb;
+--color-brand-400: #8a95f7;
+--color-brand-500: #5c67f2;
+--color-brand-600: #4248e8;
+--color-brand-700: #3438c3;
+--color-brand-800: #2b2f99;
+--color-brand-900: #262a7a;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+html, body { scroll-behavior: smooth; }
+
+
+/* Тонкая типографика без @apply, чтобы не ловить unknown utility */
+.prose h1, .prose h2, .prose h3 { letter-spacing: -0.025em; }
+.prose p { line-height: 1.625; }
+
+
+/* Фон-сетка */
+.grid-bg {
+background-image: radial-gradient(circle at 1px 1px, rgba(0,0,0,.05) 1px, transparent 0);
+background-size: 24px 24px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+
+/* Градиентный текст */
+.gradient-text {
+background: linear-gradient(90deg, #2b2f99, #5c67f2, #8a95f7);
+-webkit-background-clip: text; background-clip: text; color: transparent;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
+
+/* Карточка с тильтом */
+.tilt-card { transform: perspective(1000px) rotateX(var(--rx,0)) rotateY(var(--ry,0)) translate(var(--tx,0), var(--ty,0)); transition: transform .12s ease, box-shadow .2s ease; }
+.tilt-card:hover { box-shadow: 0 20px 40px rgba(0,0,0,.12); }
+
+
+/* Спотлайт курсора */
+.spotlight { position: relative; }
+.spotlight::before { content: ""; position: absolute; inset: -1px; z-index: 0; background: radial-gradient(600px circle at var(--x,50%) var(--y,50%), rgba(92,103,242,.14), transparent 40%); pointer-events: none; }
+
+
+/* Кнопка‑градиент */
+.btn-primary { @apply inline-flex items-center justify-center rounded-full px-6 py-3 text-white shadow transition focus:outline-none; background: linear-gradient(135deg, #2b2f99, #5c67f2 40%, #8a95f7); }
+.btn-primary:hover { filter: brightness(1.05); }
+
+
+/* Лента брендов */
+.brand-strip img { filter: grayscale(100%); opacity: .8; transition: opacity .2s ease; }
+.brand-strip img:hover { opacity: 1; }
+
+
+/* Анимации (используем через arbitrary values) */
+@keyframes marquee { 0% { transform: translateX(0) } 100% { transform: translateX(-50%) } }
+@keyframes blob { 0% { transform: translate(0,0) scale(1) } 33% { transform: translate(30px,-20px) scale(1.1) } 66% { transform: translate(-20px,20px) scale(.9) } 100% { transform: translate(0,0) scale(1) } }
+@keyframes float { 0% { transform: translateY(0) } 50% { transform: translateY(-6px) } 100% { transform: translateY(0) } }
