@@ -19,7 +19,7 @@ description:
 url: SITE_URL,
 siteName: SITE_NAME,
 images: [
-{ url: "/og-cover.jpg", width: 1200, height: 630, alt: SITE_NAME },
+{ url: "/og", width: 1200, height: 630, alt: SITE_NAME },
 ],
 locale: "ru_RU",
 type: "website",
