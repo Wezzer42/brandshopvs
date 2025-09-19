@@ -62,6 +62,17 @@ function Header() {
 
 function Hero() {
   const ref = useRef<HTMLElement>(null);
+  const maskStyle: CSSVars = {
+    "--feather": "36px",
+    WebkitMaskImage:
+      `linear-gradient(to bottom, transparent 0, black var(--feather), black calc(100% - var(--feather)), transparent 100%),
+       linear-gradient(to right,  transparent 0, black var(--feather), black calc(100% - var(--feather)), transparent 100%)`,
+    maskImage:
+      `linear-gradient(to bottom, transparent 0, black var(--feather), black calc(100% - var(--feather)), transparent 100%),
+       linear-gradient(to right,  transparent 0, black var(--feather), black calc(100% - var(--feather)), transparent 100%)`,
+    WebkitMaskComposite: "source-in",
+    maskComposite: "intersect",
+  };
   return (
     <section
       id="home"
@@ -124,28 +135,14 @@ function Hero() {
             className="relative"
           >
            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl">
+
   <Image
     src="/hero.jpg"
     alt="Коллаж одежды"
     fill
     className="object-cover"
     // перья по краям (толщина управляется --feather)
-    style={{
-      // толщина размытия от края (подбери: 24–60px)
-      "--feather": "36px",
-
-      // две маски: сверху/снизу и слева/справа
-      WebkitMaskImage:
-        `linear-gradient(to bottom, transparent 0, black var(--feather), black calc(100% - var(--feather)), transparent 100%),
-         linear-gradient(to right,  transparent 0, black var(--feather), black calc(100% - var(--feather)), transparent 100%)`,
-      maskImage:
-        `linear-gradient(to bottom, transparent 0, black var(--feather), black calc(100% - var(--feather)), transparent 100%),
-         linear-gradient(to right,  transparent 0, black var(--feather), black calc(100% - var(--feather)), transparent 100%)`,
-
-      // пересечение масок (для WebKit и стандарта)
-      WebkitMaskComposite: 'source-in',
-      maskComposite: 'intersect',
-    }}
+    style={maskStyle}
     priority
   />
 
