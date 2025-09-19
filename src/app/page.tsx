@@ -6,6 +6,8 @@ import { motion, useScroll } from "framer-motion";
 import { Truck, CreditCard, ShieldCheck } from "lucide-react";
 import type { Variants } from "framer-motion";
 import { track } from "@vercel/analytics";
+import type React from "react";
+type CSSVars = React.CSSProperties & { ["--feather"]?: string };
 
 const TG_USERNAME = "brendshopVS"; // t.me/<имя>
 const TG_DEEP_LINK = (slug?: string) => `https://t.me/${TG_USERNAME}?start=${encodeURIComponent(slug || "hello")}`;
@@ -130,7 +132,7 @@ function Hero() {
     // перья по краям (толщина управляется --feather)
     style={{
       // толщина размытия от края (подбери: 24–60px)
-      ['--feather' as any]: '36px',
+      "--feather": "36px",
 
       // две маски: сверху/снизу и слева/справа
       WebkitMaskImage:

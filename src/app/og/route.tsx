@@ -117,6 +117,7 @@ export async function GET(req: Request) {
             >
             <img
                 src={logo}
+                alt=""
                 width={40}
                 height={40}
                 style={{ objectFit: "contain", display: "flex" }}
@@ -301,6 +302,7 @@ export async function GET(req: Request) {
             {/* сам кроссовок — чуть меньше, чтобы не упираться в низ */}
             <img
               src={img}
+              alt=""
               width={480}
               height={480}
               style={{
