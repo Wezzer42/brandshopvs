@@ -1,17 +1,21 @@
+// app/sitemap.ts
 import type { MetadataRoute } from "next";
+import { headers } from "next/headers";
 
-const RAW = process.env.NEXT_PUBLIC_SITE_URL || "https://brandshop.online";
-// нормализуем без завершающего слеша
-const BASE = RAW.replace(/\/+$/, "");
+export const dynamic = "force-dynamic";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const h = await headers();
+  const host = h.get("x-forwarded-host") ?? h.get("host") ?? "brandshop.online";
+  const proto = h.get("x-forwarded-proto") ?? "https";
+  const base = `${proto}://${host}`;
+
   return [
     {
-      url: `${BASE}/`,                 // только страницы, никаких #якорей
+      url: `${base}/`,
       lastModified: new Date(),
       changeFrequency: "weekly" as const,
       priority: 1,
     },
-    // добавишь отдельные реальные страницы вида /catalog, /shipping, /faq — добавь их тут
   ];
 }
