@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion, useScroll } from "framer-motion";
 import { Truck, CreditCard, ShieldCheck } from "lucide-react";
 import type { Variants } from "framer-motion";
+import { track } from "@vercel/analytics";
 
 const TG_USERNAME = "brendshopVS"; // t.me/<имя>
 const TG_DEEP_LINK = (slug?: string) => `https://t.me/${TG_USERNAME}?start=${encodeURIComponent(slug || "hello")}`;
@@ -44,6 +45,7 @@ function Header() {
           {/* Кнопка с неон‑свечением */}
           <a
             href={`https://t.me/${TG_USERNAME}`}
+            onClick={() => track("tg_click", { placement: "hero" })}
             target="_blank"
             className="relative inline-flex items-center justify-center rounded-full px-4 py-2 text-white transition focus:outline-none"
           >
@@ -93,6 +95,7 @@ function Hero() {
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.98 }}
                 href={TG_DEEP_LINK("catalog")}
+                onClick={() => track("tg_click", { placement: "header" })}
                 target="_blank"
                 className="relative inline-flex items-center justify-center rounded-full px-6 py-3 text-white"
               >
@@ -118,17 +121,36 @@ function Hero() {
             transition={{ duration: 0.6, ease: easeBezier }}
             className="relative"
           >
-            <div className="relative aspect-[4/3] w-full overflow-hidden pointer-events-none rounded-2xl border shadow-sm>">
-              <Image src="/hero.jpg" alt="Коллаж одежды" fill className="object-cover" 
-                          style={{
-                            WebkitMaskImage: 'radial-gradient(130% 130% at 50% 50%, black 66%, transparent 100%)',
-                            maskImage: 'radial-gradient(130% 130% at 50% 50%, black 66%, transparent 100%)',
-                          }} priority />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-white/0 via-white/0 to-white/20" />
-            </div>
-            {/* Плавающие бейджи */}
-            <motion.div className="absolute -left-3 -top-3 select-none rounded-full bg-white/90 px-3 py-1 text-xs shadow-sm" animate={{ y: [0, -6, 0] }} transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}>новинки</motion.div>
-            <motion.div className="absolute -right-3 -bottom-3 select-none rounded-full bg-white/90 px-3 py-1 text-xs shadow-sm" animate={{ y: [0, 6, 0] }} transition={{ repeat: Infinity, duration: 4, ease: "easeInOut", delay: 0.5 }}>-20%</motion.div>
+           <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl">
+  <Image
+    src="/hero.jpg"
+    alt="Коллаж одежды"
+    fill
+    className="object-cover"
+    // перья по краям (толщина управляется --feather)
+    style={{
+      // толщина размытия от края (подбери: 24–60px)
+      ['--feather' as any]: '36px',
+
+      // две маски: сверху/снизу и слева/справа
+      WebkitMaskImage:
+        `linear-gradient(to bottom, transparent 0, black var(--feather), black calc(100% - var(--feather)), transparent 100%),
+         linear-gradient(to right,  transparent 0, black var(--feather), black calc(100% - var(--feather)), transparent 100%)`,
+      maskImage:
+        `linear-gradient(to bottom, transparent 0, black var(--feather), black calc(100% - var(--feather)), transparent 100%),
+         linear-gradient(to right,  transparent 0, black var(--feather), black calc(100% - var(--feather)), transparent 100%)`,
+
+      // пересечение масок (для WebKit и стандарта)
+      WebkitMaskComposite: 'source-in',
+      maskComposite: 'intersect',
+    }}
+    priority
+  />
+
+  {/* если хочется лёгкую виньетку — это уже поверх, не вместо маски */}
+  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_120%_at_50%_50%,transparent_60%,rgba(0,0,0,0.06)_100%)]"/>
+</div>
+
           </motion.div>
         </div>
       </div>
@@ -159,7 +181,7 @@ function HowToOrder() {
           ))}
         </div>
         <div className="mt-8 flex flex-wrap items-center gap-4">
-          <motion.a whileHover={{ y: -1 }} href={`https://t.me/${TG_USERNAME}`} target="_blank" className="relative inline-flex items-center justify-center rounded-full px-6 py-3 text-white">
+          <motion.a whileHover={{ y: -1 }} href={`https://t.me/${TG_USERNAME}`} onClick={() => track("tg_click", { placement: "how" })} target="_blank" className="relative inline-flex items-center justify-center rounded-full px-6 py-3 text-white">
             <span className="absolute -inset-px rounded-full opacity-80 blur-sm bg-gradient-to-r from-fuchsia-600 via-rose-500 to-amber-400" />
             <span className="relative rounded-full bg-gradient-to-r from-fuchsia-600 via-rose-500 to-amber-400 px-6 py-3">Написать в Telegram</span>
           </motion.a>
@@ -168,6 +190,7 @@ function HowToOrder() {
               await navigator.clipboard.writeText(user);
               setCopied(true);
               setTimeout(() => setCopied(false), 1500);
+              track("tg_copy", { placement: "how" });
             }}
             className="rounded-full border px-6 py-3 transition hover:bg-neutral-50"
           >
@@ -254,7 +277,7 @@ function CTA() {
         <div className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full bg-[radial-gradient(circle_at_center,rgba(236,72,153,0.28),transparent_60%)] blur-2xl" />
         <h2 className="mb-3 text-3xl font-bold tracking-tight">Готов подобрать идеальный образ?</h2>
         <p className="mx-auto mb-6 max-w-2xl text-neutral-700">Напиши нам в Telegram — ответим быстро, уточним наличие и сделаем персональный сет.</p>
-        <motion.a whileHover={{ y: -1 }} href={`https://t.me/${TG_USERNAME}`} target="_blank" className="relative inline-flex items-center justify-center rounded-full px-6 py-3 text-white">
+        <motion.a whileHover={{ y: -1 }} href={`https://t.me/${TG_USERNAME}`} onClick={() => track("tg_click", { placement: "CTA" })} target="_blank" className="relative inline-flex items-center justify-center rounded-full px-6 py-3 text-white">
           <span className="absolute -inset-px rounded-full opacity-80 blur-sm bg-gradient-to-r from-fuchsia-600 via-rose-500 to-amber-400" />
           <span className="relative rounded-full bg-gradient-to-r from-fuchsia-600 via-rose-500 to-amber-400 px-6 py-3">Написать в Telegram</span>
         </motion.a>
@@ -416,7 +439,7 @@ function Footer() {
         <div className="flex items-center gap-4 text-sm">
           <a href="#shipping" className="hover:underline">Условия доставки</a>
           <a href="#faq" className="hover:underline">FAQ</a>
-          <a href={`https://t.me/${TG_USERNAME}`} target="_blank" className="hover:underline">Telegram</a>
+          <a href={`https://t.me/${TG_USERNAME}`} onClick={() => track("tg_click", { placement: "footer" })} target="_blank" className="hover:underline">Telegram</a>
         </div>
       </div>
     </footer>
