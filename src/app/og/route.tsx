@@ -29,8 +29,8 @@ export async function GET(req: Request) {
 
   // Локальные шрифты
   const [cherry, noto] = await Promise.all([
-    fetch(new URL("./fonts/CherryCreamSoda-Regular.ttf", import.meta.url)).then(r => r.arrayBuffer()),
-    fetch(new URL("./fonts/NotoSerif-SemiBold.ttf", import.meta.url)).then(r => r.arrayBuffer()),
+    fetch(new URL("./fonts/CherryCreamSoda-Regular.woff2", import.meta.url)).then(r => r.arrayBuffer()),
+    fetch(new URL("./fonts/NotoSerif-SemiBold.woff2", import.meta.url)).then(r => r.arrayBuffer()),
   ]);
 
   const fonts = [
