@@ -58,8 +58,28 @@ background: linear-gradient(90deg, #2b2f99, #5c67f2, #8a95f7);
 .brand-strip img { filter: grayscale(100%); opacity: .8; transition: opacity .2s ease; }
 .brand-strip img:hover { opacity: 1; }
 
+.site-bg{ position: relative; }
+.site-bg::before{
+content: "";
+position: fixed; inset: 0; z-index: -1; pointer-events: none;
+background-image: image-set(
+url('/bg/shop.avif') type('image/avif') 1x,
+url('/bg/shop.webp') type('image/webp') 1x,
+url('/bg/shop.jpg') type('image/jpeg') 1x
+);
+background-size: cover; background-position: center;
+opacity: .25; filter: contrast(1.02) saturate(1.05);
+}
+
+
+/* Чуть затемним в тёмных секциях при необходимости */
+.section-dark{ position: relative; }
+.section-dark::after{
+content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(255,255,255,.6), rgba(255,255,255,.85));
+}
 
 /* Анимации (используем через arbitrary values) */
 @keyframes marquee { 0% { transform: translateX(0) } 100% { transform: translateX(-50%) } }
 @keyframes blob { 0% { transform: translate(0,0) scale(1) } 33% { transform: translate(30px,-20px) scale(1.1) } 66% { transform: translate(-20px,20px) scale(.9) } 100% { transform: translate(0,0) scale(1) } }
 @keyframes float { 0% { transform: translateY(0) } 50% { transform: translateY(-6px) } 100% { transform: translateY(0) } }
+
