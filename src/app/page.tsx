@@ -9,7 +9,8 @@ import { track } from "@vercel/analytics";
 import type React from "react";
 type CSSVars = React.CSSProperties & { ["--feather"]?: string };
 
-const TG_USERNAME = "brendshopVS"; // t.me/<имя>
+const TG_USERNAME = "+7PUy2hW8ZmgyY2Fl";
+const TG_USERNAME_COPY = "brendshopVS"; // t.me/<имя>
 const TG_DEEP_LINK = (slug?: string) => `https://t.me/${TG_USERNAME}?start=${encodeURIComponent(slug || "hello")}`;
 type Bezier = [number, number, number, number];
 const easeBezier: Bezier = [0.22, 0.8, 0.35, 1];
@@ -159,7 +160,7 @@ function Hero() {
 
 function HowToOrder() {
   const [copied, setCopied] = useState(false);
-  const user = `@${TG_USERNAME}`;
+  const user = `@${TG_USERNAME_COPY}`;
   return (
     <section id="how" className="relative">
       <div className="relative mx-auto max-w-6xl px-4 py-16">
